@@ -1,28 +1,28 @@
 require 'savon'
 require 'webrick'
 
-# Clase que define el comportamiento de los servicios SOAP
+# Class that defines the behavior of SOAP services
 class Calculator
   def add(num1, num2)
     num1 + num2
   end
 end
 
-# Configuración del servidor SOAP
+# SOAP server configuration
 server = WEBrick::HTTPServer.new(Port: 3000)
 
-# Configuración para manejar las solicitudes SOAP
+# Configuration to handle SOAP requests
 server.mount_proc '/' do |req, res|
     puts "Solicitud recibida: #{req.body}"
     if req.request_method == 'POST' && req.path == '/'
-      # Extraemos los números de la solicitud SOAP
+      # We extract the numbers from the SOAP request
       soap_request = req.body
       match = soap_request.match(/<web:num1>(\d+)<\/web:num1>.*<web:num2>(\d+)<\/web:num2>/m)
       if match
         num1, num2 = match.captures.map(&:to_i)
         result = Calculator.new.add(num1, num2)
   
-        # Respuesta SOAP con el resultado
+        # SOAP response with the result
         res.content_type = 'text/xml'
         res.body = <<-XML
           <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
@@ -45,5 +45,5 @@ server.mount_proc '/' do |req, res|
     end
   end
   
-# Iniciar el servidor
+# Start the server
 server.start
