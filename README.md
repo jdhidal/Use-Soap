@@ -42,9 +42,16 @@ git clone https://github.com/jdhidal/Use-Soap.git
 cd use-Soap
 ```
 
-2. **Run the server**:
+2. **Install dependencies**:
 ```bash
-ruby file_name.rb
+gem install webrick
+gem install savon -v '2.15.1'
+gem install httpi -v '4.0.4'
+```
+
+3. **Run the server**:
+```bash
+ruby server.rb
 ```
 By default, the server will listen on port `3000`.
 
@@ -56,8 +63,8 @@ Use the following PowerShell script to send a SOAP request to the server:
 
 ``powershell
 # Define the server URL
+```xml
 $url = "http://localhost:3000/"
-
 # Define the SOAP request body (XML)
 $soapEnvelope = @"
 <?xml version="1.0" encoding="UTF-8"?>
@@ -107,7 +114,3 @@ xmlns:web="http://www.example.com/webservice">
 ## Additional notes
 - The server is a basic implementation to demonstrate SOAP concepts.
 - You can extend the code to handle other mathematical operations or add authentication.
-
-## License
-This project is licensed under the MIT License. Feel free to modify it and adapt it to your needs.
-
